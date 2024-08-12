@@ -1,30 +1,47 @@
-const words = ['orange', 'pear', 'lime', 'plum', 'blueberry'];
-const word = document.querySelector('.word');
+const wordHolder = document.querySelector(".word");
+const timer = document.querySelector("#timer");
 
-function getRandomValue(min, max) {
-    return min + Math.floor(Math.random() * (max - min))
-    }
+let currentWord = getRandomWord();
+renderWord(currentWord);
 
-const getWord = () => {
-    const randomValue = getRandomValue(0, 5);
-    word.textContent = words[randomValue];
-    }
+let idx = 0;
+document.addEventListener("keypress", (event) => {
+if (event.key === currentWord[idx]) {
+symbolSuccess();
+} else {
+symbolFail();
+}
+});
 
-    getWord();
+function getRandomWord() {
+const possibleWords = [
+"apple",
+"candy",
+"language",
+"family",
+"popcorn",
+"unicorn",
+"smartphone",
+"weather",
+];
 
-word.addEventListener('keydown', (event) => {
-    if(event.key !== getWord) {
-        getWord.classList.add('.w');
-    } else {
-        getWord.classList.add('.c');
-    }
-})
+const idx = Math.floor(Math.random() * possibleWords.length);
+return possibleWords[idx];
+}
 
+function renderWord(word) {
+wordHolder.innerHTML = word
+.split("")
+.map((char) => `<span>${char}</span>`)
+.join("");
+}
 
+function symbolSuccess() {
+wordHolder.children[idx].className = "c";
+idx++;
+}
 
-const correctOne = document.querySelector('.correct-count');
-const wrongOne = document.querySelector('.wrong-count');
-const mistakes = document.querySelector('.word-mistakes');
-
+function symbolFail() {
+wordHolder.children[idx].className = "w";
+}
     
-
